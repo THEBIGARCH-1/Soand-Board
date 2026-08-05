@@ -200,7 +200,6 @@
     </div>
 
     <script>
-        // Search filter function
         function filterSounds() {
             let input = document.getElementById('searchBar').value.toLowerCase();
             let buttons = document.getElementsByClassName('sound-btn');
@@ -215,7 +214,6 @@
             }
         }
 
-        // Core Synthesizer engine using Web Audio API
         function generateSound(type, dur, startF, endF, vol) {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const osc = audioCtx.createOscillator();
@@ -237,7 +235,6 @@
             osc.stop(now + dur);
         }
 
-        // Play standard preset effects
         function playPreset(type) {
             if (type === 'pop') generateSound('sine', 0.1, 300, 800, 0.3);
             if (type === 'bell') generateSound('triangle', 0.8, 900, 900, 0.3);
@@ -249,7 +246,6 @@
             }
         }
 
-        // Gather parameters from the Studio inputs
         function getStudioParameters() {
             return {
                 type: document.getElementById('waveType').value,
@@ -260,13 +256,11 @@
             };
         }
 
-        // Preview sound without saving
         function previewCustomSound() {
             let p = getStudioParameters();
             generateSound(p.type, p.dur, p.startF, p.endF, p.vol);
         }
 
-        // Save custom sound as a new interactive button on the board
         function saveCustomSound() {
             let nameInput = document.getElementById('soundName').value.trim();
             if (!nameInput) {
@@ -277,20 +271,15 @@
             let p = getStudioParameters();
             let grid = document.getElementById('soundGrid');
 
-            // Create new button element
             let newBtn = document.createElement('button');
             newBtn.className = 'sound-btn custom';
             newBtn.innerText = nameInput + " 🎛️";
             
-            // Attach a closure function to play these exact saved parameters on click
             newBtn.onclick = function() {
                 generateSound(p.type, p.dur, p.startF, p.endF, p.vol);
             };
 
-            // Add to the main grid
             grid.appendChild(newBtn);
-
-            // Clear the name input field for next time
             document.getElementById('soundName').value = "";
             alert("Success! Your custom sound has been added to the board.");
         }
